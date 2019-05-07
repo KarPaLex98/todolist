@@ -1,11 +1,16 @@
 <?php
 
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'us-cdbr-iron-east-02.cleardb.net;dbname=heroku_9e6f7d4ab02d59a',
-    'username' => 'b48887abf537cd',
-    'password' => 'a23bcd5b',
-    'charset' => 'utf8',
+    $url=parse_url(getenv("CLEARDB_DATABASE_URL"));
+
+    $server = $url["host"];
+    $username = $url["user"];
+    $password = $url["pass"];
+    $db = substr($url["path"],1);
+
+mysqli_connect($server, $username, $password);
+
+
+mysqli_select_db($db);
 
     // Schema cache options (for production environment)
     //'enableSchemaCache' => true,
