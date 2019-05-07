@@ -1,19 +1,14 @@
 <?php
 
-    $url=parse_url(getenv("CLEARDB_DATABASE_URL"));
+$url=parse_url(getenv("CLEARDB_DATABASE_URL"));
 
-    $server = $url["host"];
-    $username = $url["user"];
-    $password = $url["pass"];
-    $db = substr($url["path"],1);
+$server = $url["host"];
+$username = $url["user"];
+$password = $url["pass"];
+$db = substr($url["path"],1);
 
 mysqli_connect($server, $username, $password);
 
 
 mysqli_select_db($db);
 
-    // Schema cache options (for production environment)
-    //'enableSchemaCache' => true,
-    //'schemaCacheDuration' => 60,
-    //'schemaCache' => 'cache',
-];
