@@ -63,21 +63,24 @@ class SiteController extends Controller
 
     public function actionTodo()
     {
-        $array = Todo::getAll();
-        $model_todo = new ToDo();
+        if (!Yii::$app->user->isGuest) {
+            $array = Todo::getAll();
+            $model_todo = new ToDo();
 
-        if ($_POST['Create'])
-        {
-            $model_todo->title = $_POST['ToDo']['title'];
-            $model_todo->description = $_POST['ToDo']['description'];
-            $model_todo->id_user = Yii::$app->user->getId();
-            $model_todo->is_done = false;
-            if ($model_todo->validate() && $model_todo->save())
-            {
-                return $this->redirect(['site/todo']);
+            if ($_POST['Create']) {
+                $model_todo->title = $_POST['ToDo']['title'];
+                $model_todo->description = $_POST['ToDo']['description'];
+                $model_todo->id_user = Yii::$app->user->getId();
+                $model_todo->is_done = false;
+                if ($model_todo->validate() && $model_todo->save()) {
+                    return $this->redirect(['site/todo']);
+                }
             }
+            return $this->render('todo', ['model_todo2' => $array, 'model_todo' => $model_todo]);
         }
-        return $this->render('todo', ['model_todo2'=>$array, 'model_todo'=>$model_todo]);
+        else{
+
+        }
     }
 
 
