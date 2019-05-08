@@ -79,7 +79,7 @@ class SiteController extends Controller
             return $this->render('todo', ['model_todo2' => $array, 'model_todo' => $model_todo]);
         }
         else{
-
+            return $this->render('index');
         }
     }
 
