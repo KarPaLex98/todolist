@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\helpers\Html;
 use yii\web\Controller;
 use app\models\Signup;
 use app\models\Login;
@@ -34,11 +35,26 @@ class SiteController extends Controller
             $model->attributes = Yii::$app->request->post('Signup');
             if ($model->validate() && $model->signup())
             {
+                Yii::$app->session->setFlash('success', 'Please, check your email.');
                 return $this->goHome();
             }
         }
         return $this->render('signup',['model' =>$model]);
     }
+
+    public function actionActivation()
+    {
+        if (Yii::$app->user->isGuest) {
+            $token = Html::encode(Yii::$app->request->get('token'));
+            $model = new Signup();
+            $model_login = $model->getUserByToken($token);
+            if ($model->confirm($token)) {
+                Yii::$app->user->email($model_login);
+            }
+            return $this->redirect(['site/todo']);
+        } else return $this->redirect(['site/todo']);
+    }
+
     public function actionLogin()
     {
         if(!Yii::$app->user->isGuest)
@@ -48,12 +64,12 @@ class SiteController extends Controller
 
         $login_model = new Login();
 
-        if ( Yii::$app->request->post('Login'))
+        if ( Yii::$app->request->post('email'))
         {
-            $login_model->attributes = Yii::$app->request->post('Login');
+            $login_model->attributes = Yii::$app->request->post('email');
             if ($login_model->validate())
             {
-                Yii::$app->user->login($login_model->getUser());
+                Yii::$app->user->email($login_model->getUser());
                 return $this->goHome();
             }
         }

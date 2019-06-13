@@ -7,6 +7,12 @@ return [
     'password' => 'a23bcd5b',
     'charset' => 'utf8',
 
+//    'class' => 'yii\db\Connection',
+//    'dsn' => 'mysql:host=localhost;dbname=todo2',
+//    'username' => 'root',
+//    'password' => '',
+//    'charset' => 'utf8',
+
     // Schema cache options (for production environment)
     //'enableSchemaCache' => true,
     //'schemaCacheDuration' => 60,

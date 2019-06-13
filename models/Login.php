@@ -6,7 +6,7 @@ use yii\base\Model;
 
 class Login extends Model
 {
-    public $login;
+    public $email;
     public $password;
 
     /**
@@ -15,8 +15,8 @@ class Login extends Model
     public function rules()
     {
         return [
-            [['login','password'],'required'],
-            ['login','string','min'=>2,'max'=>10],
+            [['email','password'],'required'],
+            ['email','email'],
             ['password','validatePassword']
         ];
     }
@@ -26,15 +26,15 @@ class Login extends Model
         if(!$this->hasErrors()) //no errors in validation
         {
             $user = $this->getUser(); //get user for next compare of password
-            if(!$user || !$user->validatePassword($this->password))
+            if(!$user || !$user->validatePassword($this->password) || $user->status == 0)
             {
-                $this->addError($attribute, 'Login or password is incorrect');
+                $this->addError($attribute, 'Wrong email or password or account is not confirmed');
             }
         }
     }
 
     public function getUser()
     {
-        return User::findOne(['login'=>$this->login]);
+        return User::findOne(['email'=>$this->email]);
     }
 }
